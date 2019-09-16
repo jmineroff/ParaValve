@@ -1,0 +1,35 @@
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate\brep_trivariate\bin\brep_trivariate.dll
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate\brep_trivariate\bin\brep_trivariate.pdb
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate\brep_trivariate\obj\Debug64\brep_trivariate.dll
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate\brep_trivariate\obj\Debug64\brep_trivariate.pdb
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.dll
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.pdb
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.dll
+C:\Users\chenglong\Documents\research\016blisk\01Geometry\code\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.pdb
+C:\Users\Moses\Dropbox\Shared\Austin\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.dll
+C:\Users\Moses\Dropbox\Shared\Austin\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.pdb
+C:\Users\Moses\Dropbox\Shared\Austin\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+C:\Users\Moses\Dropbox\Shared\Austin\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.dll
+C:\Users\Moses\Dropbox\Shared\Austin\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.pdb
+C:\Users\Moses\Dropbox\Research\MingChen\Heart Valve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.dll
+C:\Users\Moses\Dropbox\Research\MingChen\Heart Valve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.pdb
+C:\Users\Moses\Dropbox\Research\MingChen\Heart Valve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+C:\Users\Moses\Dropbox\Research\MingChen\Heart Valve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.dll
+C:\Users\Moses\Dropbox\Research\MingChen\Heart Valve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.pdb
+C:\Users\jmineroff\Dropbox\Espresso\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.dll
+C:\Users\jmineroff\Dropbox\Espresso\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.pdb
+C:\Users\jmineroff\Dropbox\Espresso\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.dll
+C:\Users\jmineroff\Dropbox\Espresso\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.pdb
+C:\Users\jmineroff\Dropbox\Espresso\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+\\VBOXSVR\Affogato\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.dll
+\\VBOXSVR\Affogato\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.pdb
+\\VBOXSVR\Affogato\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+\\VBOXSVR\Affogato\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.dll
+\\VBOXSVR\Affogato\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.pdb
+\\Mac\Dropbox\wrmorrow-2\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.dll
+\\Mac\Dropbox\wrmorrow-2\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\bin\brep_trivariate.pdb
+\\Mac\Dropbox\wrmorrow-2\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.csprojResolveAssemblyReference.cache
+\\Mac\Dropbox\wrmorrow-2\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.dll
+\\Mac\Dropbox\wrmorrow-2\HeartValve\NURBS\brep_trivariate_03_two_surf\brep_trivariate\obj\Debug64\brep_trivariate.pdb

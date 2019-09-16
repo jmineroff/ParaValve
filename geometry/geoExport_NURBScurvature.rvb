@@ -1,0 +1,343 @@
+Option Explicit
+'Script written by Joshua Mineroff
+'Script version Wednesday, 12 June 2015 14:20:00
+
+'''''''''''''''''''''''''''''''
+''''''''''''PREREQS''''''''''''
+'''''''''''''''''''''''''''''''
+'Create a 'matlabAnalysis' Viewport (white surfaces on black)
+'nurbLeaflets.gh and nurbLeafletsRebuild.gh
+'brep... PlugIn needs to be compiled and imported to output .smesh for analysis
+'''''''''''''''''''''''''''''''
+
+Call Main()
+
+Sub Main
+
+	On Error Resume Next
+
+	Rhino.Command "_RememberCopyOptions N Enter"
+	
+	Dim GenFlag
+	GenFlag = 0
+	
+	While GenFlag < 2
+		
+		Dim objFSO, objFile, strLine
+		
+		strLine = "0"
+		
+		Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+		' Read GeoGenFlag
+		Do
+			Err.Clear
+			
+			Set objFile = objFSO.OpenTextFile("GeoGenFlag.txt", 1)
+			
+			If Err.Number Then
+				Rhino.Print "Error=" & CInt(Err.Number)
+				Rhino.Sleep 1000 'ms
+			Else
+				If Not objFile.AtEndOfStream Then
+					strLine = objFile.ReadLine
+					If Len(strLine) = 0 Then
+						Rhino.Print "Empty File"
+						objFile.Close
+						Rhino.Sleep 1000
+						Set objFile = objFSO.OpenTextFile("GeoGenFlag.txt", 1)
+					End If
+				Else
+					Rhino.Print "Empty File"
+					objFile.Close
+					Rhino.Sleep 1000
+					Set objFile = objFSO.OpenTextFile("GeoGenFlag.txt", 1)
+				End If
+			End If
+			
+		Loop Until Err.Number = 0 And Len(strLine) > 0
+		
+		GenFlag = CInt(strLine)
+		
+		objFile.Close
+		Set objFSO = Nothing
+		
+		Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+		Do
+			Err.Clear
+		
+			Set objFile = objFSO.CreateTextFile("ReadyFlag.txt", True)
+			
+			If Err.Number Then
+				Rhino.Print "Error=" & CInt(Err.Number)
+				Rhino.Sleep 100 '1000 ms
+			End If
+		Loop Until Err.Number = 0
+			
+		If objFSO.FileExists("input.geo.dat") Then
+			objFile.WriteLine("0")
+		Else
+			objFile.WriteLine("1")
+		End If
+		
+		objFile.Close
+		Set objFile = Nothing
+		Set objFSO = Nothing
+			
+		If (GenFlag = 1) Then
+			
+			Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+			Dim GeoExist
+			GeoExist = 0
+		
+			While GeoExist = 0
+				If objFSO.FileExists("input.geo.dat") Then
+					GeoExist = 1
+					Rhino.Sleep 100
+				Else
+					Rhino.Print "Waiting for input file..."
+					Rhino.Sleep 1000
+				End If
+			Wend
+			
+			Set objFSO = Nothing
+			
+			Call GeoGen
+			
+			' Print flag file
+			Dim objStream
+			
+			Set objFSO = CreateObject("Scripting.FileSystemObject")
+			
+			Rhino.Print "Resetting GeoGenFlag..."
+			
+			Do
+				Err.Clear
+				
+				Set objStream = objFSO.CreateTextFile("GeoGenFlag.txt", True)
+				
+				If Err.Number Then
+					Rhino.Print "Error=" & CInt(Err.Number)
+					Rhino.Sleep 100 '1000 ms
+				End If
+				
+			Loop Until Err.Number = 0
+			
+			objStream.WriteLine("0")
+			
+			objStream.Close
+			Set objStream = Nothing
+			Set objFSO = Nothing
+			
+			Rhino.Print "Checking GeoGenFlag..."
+		
+		End If
+	
+		' Pause
+		Rhino.Sleep 1000 ms
+		
+	Wend
+
+End Sub
+
+Sub GeoGen()
+
+	On Error Resume Next
+	
+	Rhino.Print "Generating Geometry..."
+	
+	' Clear existing Geometry
+	Rhino.Command "_SelAll"
+	Rhino.Command "_Delete"
+	
+	' Change viewport
+	'Rhino.Command "_SetActiveViewport Perspective"
+	'Rhino.Command "_MaxViewport"
+	
+	' Open and Close First Auto-Baking Grasshopper File
+	Dim GH : Set GH = Rhino.GetPluginObject("Grasshopper")
+	GH.CloseAllDocuments()
+	GH.OpenDocument("curvatureLeaflets.gh")
+	GH.CloseAllDocuments()
+	
+	' GHFlag FAIL placeholder
+	Dim objFSO, objStream
+	Set objFSO = CreateObject("Scripting.FileSystemObject")
+	
+	Rhino.Print "Writing GHFail Placeholder..."
+	
+	Do
+		Err.Clear
+		
+		Set objStream = objFSO.CreateTextFile("GHflag.txt", True)
+		
+		If Err.Number Then Rhino.Print "Error=" & CInt(Err.Number)
+	
+		Rhino.Sleep 5 '1000 ms
+	
+	Loop Until Err.Number = 0
+	
+	objStream.WriteLine("0")
+	
+	objStream.Close
+	Set objStream = Nothing
+	Set objFSO = Nothing
+	
+	' Check that geometry was created
+	Dim objects
+	objects = Rhino.AllObjects(False, True)
+	
+	If IsArray(objects) Then	' Success
+		Rhino.Print "Processing Geometry..."
+		
+		' Merge surfaces
+		Rhino.Command "_SelAll"
+		Rhino.Command "_MergeSrf"
+		
+		' Name Surface
+		Dim strObject : strObject = Rhino.GetObject(, 8, 1)
+		Rhino.ObjectName strObject, "Garbage"
+		
+		' Open and Close Second Auto-Baking Grasshopper File
+		GH.OpenDocument("nurbLeafletRebuild.gh")
+		GH.CloseAllDocuments()
+		
+		' Delete DirtyGeo
+		Rhino.Command "_-SelName Garbage"
+		Rhino.Command "_Delete"
+		
+		Rhino.Command "_SelAll"
+		
+		Rhino.Command "_Dir S Enter"
+		
+		' Get Knot Vector
+		Dim surf : surf = Rhino.GetObject(, 8, 1) 
+		If IsNull(surf) Then
+			Rhino.Print "SurfSel FAILED"
+			Exit Sub
+		End If
+		
+		Dim knots : knots = Rhino.SurfaceKnots(surf)
+		If Not IsArray(knots) Then
+			Rhino.Print "NULL knot vector"
+			Exit Sub
+		End If
+		
+		Dim Uknots : Uknots = knots(0)
+		Dim Vknots : Vknots = knots(1)
+		
+		' Refine Top Edge
+		'Dim refineKnot(1) : refineKnot(0) = (Uknots(2) + Uknots(3)) / 2 ' (Uknots(1) + Uknots(2)) / 2
+		'refineKnot(1) = 0
+		
+		'Rhino.InsertSurfaceKnot surf, refineKnot, 1
+		
+		' Refine Bottom Edge
+		'refineKnot(0) = (Uknots(Ubound(Uknots) - 3) + Uknots(Ubound(Uknots) - 2)) / 2 ' (Uknots(1) + Uknots(2)) / 2
+		'refineKnot(1) = 0
+		
+		'Rhino.InsertSurfaceKnot surf, refineKnot, 1
+		
+		' Remove Corner Knots
+		Dim removeKnot(1) : removeKnot(1) = Vknots(3)
+		removeKnot(0) = 0
+		
+		Rhino.RemoveSurfaceKnot surf, removeKnot, 0
+		
+		removeKnot(1) = Vknots(UBound(Vknots) - 3)
+		
+		Rhino.RemoveSurfaceKnot surf, removeKnot, 0
+		
+		
+		' Rotate and save patches
+		Rhino.Command "_SelAll"
+		Rhino.Command "_Rotate3D 0,0,0 0,0,1 c 120 Enter"
+		Rhino.Command "_Rotate3D 0,0,0 0,0,1 c -120 Enter"
+		
+		Rhino.Command "_SelAll"
+		
+		' Output smesh files
+		
+		Rhino.Command "breptrivariateCommand"
+			
+		' Take screenshot
+		Rhino.Command "_Zoom E"
+		Rhino.Command "_Zoom O"
+		Rhino.Command "_SetDisplayMode M S"
+		Rhino.Command "_SelNone"
+		Rhino.Command "_PointsOff"
+		Rhino.Command "-_ViewCaptureToFile leaflet.jpg Enter"
+		'Rhino.Command "_SetDisplayMode M matlabAnalysis"
+		'Rhino.Command "-_ViewCaptureToFile leafletCheck.jpg Enter"
+		'Rhino.Command "_SetDisplayMode M Shaded"
+		
+		' Rewrite smesh if necessary
+		Rhino.Command "_SelAll"
+		
+		Rhino.Sleep 500
+		
+		Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+		Dim Smesh
+		Smesh = 0
+		
+		If objFSO.FileExists("smesh.1.dat") Then
+			If objFSO.FileExists("smesh.2.dat") Then
+				If objFSO.FileExists("smesh.3.dat") Then
+					Smesh = 1
+				End If
+			End If
+		End If
+		
+		While Smesh < 1 And Smesh > -3
+			Rhino.Command "breptrivariateCommand"
+				
+			Rhino.Sleep 1500
+				
+			If objFSO.FileExists("smesh.1.dat") Then
+				If objFSO.FileExists("smesh.2.dat") Then
+					If objFSO.FileExists("smesh.3.dat") Then
+						Smesh = 1
+					End If
+				End If
+			End If
+			
+			If Smesh < 1 Then
+				Smesh = Smesh - 1
+			End If
+		Wend
+		
+		Set objFSO = Nothing
+		
+		Rhino.Command "_SelNone"
+		
+		' GHFlag SUCCESS
+		Set objFSO = CreateObject("Scripting.FileSystemObject")
+		
+		Rhino.Print "Writing GHPass..."
+		
+		Do	
+			Err.Clear
+			
+			Set objStream = objFSO.CreateTextFile("GHflag.txt", True)
+			
+			If Err.Number Then Rhino.Print "Error=" & CInt(Err.Number)
+			
+			Rhino.Sleep 5 '1000 ms
+		
+		Loop Until Err.Number = 0
+		
+		If Smesh = 1 Then
+			objStream.WriteLine("1")
+		Else
+			objStream.WriteLine("0")
+		End If
+		
+		objStream.Close
+		Set objStream = Nothing
+		Set objFSO = Nothing
+	End If
+	
+End Sub
