@@ -9,7 +9,7 @@ ParaValve is the automation pipeline for geometric generation and optimization o
 * Results are logged and queried to prevent duplicate model evaluations
 
 ## Dependencies
-It uses [Rhino/Grasshopper](https://www.rhino3d.com/6/new/grasshopper) to generate the geometry.
+[Rhino/Grasshopper](https://www.rhino3d.com/6/new/grasshopper) is used to generate the geometry.
 
 This program also uses solvers from the [Matlab Optimization Toolbox](https://www.mathworks.com/products/optimization.html).
 
@@ -17,7 +17,8 @@ This program also uses solvers from the [Matlab Optimization Toolbox](https://ww
 1. Clone the ParaValve repository
 2. Create a 'matlabAnalysis' view in Rhino (white surfaces on black)
 3. Compile 'brep_...' and import the plugin to Rhino to create the smesh files for analysis
-3. Manually modify funCurve.m to work with your analysis tool
+4. Manually modify 'funCurve.m' and 'setup-opt-1/runAnalysis.sh' to work with your analysis tool
+5. Depending on your system configuration, file locations may need be corrected in some of the scripts
 
 ## Using CircOpt
 1. Run 'geometry/geoExport...rvb' in Rhino to prime the geometry pipeline
@@ -31,6 +32,7 @@ This program also uses solvers from the [Matlab Optimization Toolbox](https://ww
 * 'setup-opt-.../': Work folder for a specific Matlab process worker
 * 'sync/': Folder with global worker process information
 * 'samples/': Representative samples of the range of possible geometries
+* 'analysis/': Default folder for your analysis tool
 
 ## Publications
 1. Ming-Chen Hsu, David Kamensky, Fei Xu, Josef Kiendl, Chenglong Wang, Michael CH Wu, Joshua Mineroff, Alessandro Reali, Yuri Bazilevs, and Michael S Sacks (2015). Dynamic and Fluid–Structure Interaction Simulations of Bioprosthetic Heart Valves Using Parametric Design with T-splines and Fung-type Material Models. _Computational Mechanics_

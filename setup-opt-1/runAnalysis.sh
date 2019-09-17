@@ -6,7 +6,7 @@ cd "$(dirname "$0")"
 echo $$ > bashPID.txt
 
 echo "mpirun-openmpi-mp -n 1 analysis.exe"
-mpirun-openmpi-mp -n 1 ../code-press-nonlin-80mmHg/bin/analysis.exe > output.txt
+mpirun-openmpi-mp -n 1 ../analysis/analysis.exe > output.txt
 
 echo "./postpro_strain.exe 3"
 ./postpro_strain.exe 3
